@@ -22,7 +22,6 @@ class ExerciseListItem extends StatelessWidget {
       );
     }
     return ListView.builder(
-      physics: NeverScrollableScrollPhysics(),
       itemCount: _exerciseStore.exerciseList!.exercises.length,
       itemBuilder: (context, index) {
         return ExerciseItem(
