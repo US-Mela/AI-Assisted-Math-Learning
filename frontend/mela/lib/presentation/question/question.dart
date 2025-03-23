@@ -211,6 +211,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
     ],
   );
 
+  //building FAB
   Widget _buildFAB(BuildContext context) {
     return Container(
         decoration: const BoxDecoration(
