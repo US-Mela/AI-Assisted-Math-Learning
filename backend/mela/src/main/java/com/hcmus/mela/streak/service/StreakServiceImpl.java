@@ -41,8 +41,17 @@ public class StreakServiceImpl implements StreakService {
         Streak streak = streakRepository.findByUserId(userId);
 
         if (streak == null) {
-            final String userNotFound = exceptionMessageAccessor.getMessage(null, USER_NOT_FOUND);
-            throw new BadRequestException(userNotFound);
+            streak = new Streak(userId, 0, new Date(), new Date(), 0);
+            streakRepository.save(streak);
+
+            final String getStreakSuccessMessage = generalMessageAccessor.getMessage(null, STREAK_FOUND, userId);
+
+            log.info(getStreakSuccessMessage);
+
+            return new GetStreakResponse(streak.getStreakDays(),
+                    streak.getUpdatedAt(),
+                    streak.getLongestStreak(),
+                    getStreakSuccessMessage);
         }
 
         if (ChronoUnit.DAYS.between(
@@ -70,8 +79,14 @@ public class StreakServiceImpl implements StreakService {
         Streak streak = streakRepository.findByUserId(userId);
 
         if (streak == null) {
-            final String userNotFound = exceptionMessageAccessor.getMessage(null, USER_NOT_FOUND);
-            throw new BadRequestException(userNotFound);
+            streak = new Streak(userId, 1, new Date(), new Date(), 1);
+            streakRepository.save(streak);
+
+            final String updateStreakSuccessMessage = generalMessageAccessor.getMessage(null, UPDATE_STREAK_SUCCESS, userId);
+
+            log.info(updateStreakSuccessMessage);
+
+            return new UpdateStreakResponse(updateStreakSuccessMessage);
         }
 
         if (ChronoUnit.DAYS.between(
