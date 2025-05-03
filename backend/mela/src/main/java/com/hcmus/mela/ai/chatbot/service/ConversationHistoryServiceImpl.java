@@ -10,10 +10,9 @@ import com.hcmus.mela.ai.client.exception.ApiException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
 @AllArgsConstructor
@@ -99,25 +98,26 @@ public class ConversationHistoryServiceImpl implements ConversationHistoryServic
 
     @Override
     public GetListMessagesResponseDto getListMessages(GetListMessagesRequestDto request, UUID conversationId) {
-        if(!conversationRepository.existsByConversationId(conversationId)) {
+        if (!conversationRepository.existsByConversationId(conversationId)) {
             throw new ApiException(404, "Conversation not found");
         }
-        List<Message> messages;
 
-        if (request.getAfter() != null) {
-            // Fetch messages after a certain messageId
-            UUID afterId = UUID.fromString(request.getAfter());
-            messages = conversationRepository.getMessagesAfter(conversationId, afterId, request.getLimit());
-        } else if (request.getBefore() != null) {
-            // Fetch messages before a certain messageId
-            UUID beforeId = UUID.fromString(request.getBefore());
-            messages = conversationRepository.getMessagesBefore(conversationId, beforeId, request.getLimit());
-        } else {
-            // Fetch messages without specific cursor filters
-            messages = conversationRepository.getMessages(conversationId, request.getLimit());
+        int fetchLimit = request.getLimit() + 1;
+        UUID beforeId = request.getBefore() != null ? UUID.fromString(request.getBefore()) : null;
+        UUID afterId = request.getAfter() != null ? UUID.fromString(request.getAfter()) : null;
+
+        AtomicBoolean hasMoreHolder = new AtomicBoolean(false);
+        List<Message> messages = conversationRepository.getMessages(conversationId, fetchLimit, beforeId, afterId, hasMoreHolder);
+
+        // Cắt xuống đúng số lượng yêu cầu nếu đã fetch thừa 1
+        if (messages.size() > request.getLimit()) {
+            if (afterId != null) {
+                messages = messages.subList(0, request.getLimit());
+            } else {
+                messages = messages.subList(messages.size() - request.getLimit(), messages.size());
+            }
         }
 
-        // Prepare the response
         List<MessageResponseDto> messageResponseDtos = messages.stream()
                 .map(message -> MessageResponseDto.builder()
                         .messageId(message.getMessageId())
@@ -132,7 +132,8 @@ public class ConversationHistoryServiceImpl implements ConversationHistoryServic
                 .data(messageResponseDtos)
                 .firstId(messages.isEmpty() ? null : messages.get(0).getMessageId().toString())
                 .lastId(messages.isEmpty() ? null : messages.get(messages.size() - 1).getMessageId().toString())
-                .hasMore(messages.size() == request.getLimit())
+                .hasMore(hasMoreHolder.get())
                 .build();
     }
+
 }
