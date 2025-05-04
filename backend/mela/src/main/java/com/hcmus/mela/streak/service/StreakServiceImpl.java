@@ -59,8 +59,6 @@ public class StreakServiceImpl implements StreakService {
                 (new Date()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()) > 1) {
 
             streak.setStreakDays(0);
-            streak.setUpdatedAt(new Date());
-            streak.setStartedAt(new Date());
             streakRepository.updateStreak(streak);
         }
 
