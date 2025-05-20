@@ -10,6 +10,7 @@ import com.hcmus.mela.exercise.dto.dto.QuestionDto;
 import com.hcmus.mela.exercise.dto.request.ExerciseRequest;
 import com.hcmus.mela.exercise.dto.response.ExerciseResponse;
 import com.hcmus.mela.exercise.dto.response.QuestionResponse;
+import com.hcmus.mela.exercise.mapper.ExerciseMapper;
 import com.hcmus.mela.exercise.mapper.ExerciseStatDetailMapper;
 import com.hcmus.mela.exercise.model.Exercise;
 import com.hcmus.mela.exercise.model.ExerciseStatus;
@@ -103,6 +104,15 @@ public class ExerciseServiceImpl implements ExerciseService {
                 exercisesSuccessMessage,
                 exerciseStatDetailDtoList.size(),
                 exerciseStatDetailDtoList);
+    }
+
+    @Override
+    public List<ExerciseDto> getListOfExercisesInLecture(UUID lectureId) {
+        List<Exercise> exercises = exerciseRepository.findAllByLectureId(lectureId);
+
+        return exercises.stream()
+                .map(ExerciseMapper.INSTANCE::converToExerciseDto)
+                .toList();
     }
 
     private List<ExerciseStatDetailDto> mapExercisesToStatDetails(

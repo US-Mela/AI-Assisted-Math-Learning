@@ -3,6 +3,7 @@ package com.hcmus.mela.lecture.service;
 import com.hcmus.mela.common.async.AsyncCustomService;
 import com.hcmus.mela.common.utils.GeneralMessageAccessor;
 import com.hcmus.mela.history.service.ExerciseHistoryService;
+import com.hcmus.mela.lecture.dto.dto.LectureDto;
 import com.hcmus.mela.lecture.dto.dto.LectureStatDetailDto;
 import com.hcmus.mela.lecture.dto.dto.LecturesByTopicDto;
 import com.hcmus.mela.lecture.dto.response.GetLecturesByLevelResponse;
@@ -11,12 +12,14 @@ import com.hcmus.mela.lecture.mapper.LectureMapper;
 import com.hcmus.mela.lecture.mapper.TopicMapper;
 import com.hcmus.mela.lecture.model.Lecture;
 import com.hcmus.mela.lecture.model.LectureActivity;
+import com.hcmus.mela.lecture.repository.LectureCustomRepositoryImpl;
 import com.hcmus.mela.lecture.repository.LectureRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +34,7 @@ public class LectureListServiceImpl implements LectureListService {
     private final ExerciseHistoryService exerciseHistoryService;
 
     private final AsyncCustomService asyncService;
+    private final LectureCustomRepositoryImpl lectureCustomRepositoryImpl;
 
     @Override
     public GetLecturesByLevelResponse getLecturesByLevel(UUID userId, UUID levelId) {
@@ -123,6 +127,15 @@ public class LectureListServiceImpl implements LectureListService {
                 .toList();
 
         return getLectureStatListResponse(passMapFuture.join(), lectures);
+    }
+
+    @Override
+    public List<LectureDto> getLecturesNeedToBeReviewed(UUID userId) {
+        List<Lecture> lectures = lectureCustomRepositoryImpl.findCompleteLecturesWithWrongExercises(userId);
+
+        return lectures.stream()
+                .map(LectureMapper.INSTANCE::lectureToLectureDto)
+                .toList();
     }
 
     private List<LectureActivity> mergeActivity(List<LectureActivity> first, List<LectureActivity> second) {

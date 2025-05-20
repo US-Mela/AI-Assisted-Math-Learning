@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -46,5 +47,16 @@ public class TopicServiceImpl implements TopicService {
         return topics.isEmpty()
                 ? Collections.emptyList()
                 : topics.stream().map(TopicMapper.INSTANCE::topicToTopicDto).toList();
+    }
+
+    @Override
+    public TopicDto getTopicById(UUID topicId) {
+        Topic topic = topicRepository.findById(topicId).orElse(null);
+
+        if (topic == null) {
+            return null;
+        }
+
+        return TopicMapper.INSTANCE.topicToTopicDto(topic);
     }
 }
