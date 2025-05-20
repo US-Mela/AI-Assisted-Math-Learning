@@ -26,7 +26,8 @@ import org.springframework.lang.NonNull;
         "com.hcmus.mela.history.repository",
         "com.hcmus.mela.auth.repository",
         "com.hcmus.mela.user.repository",
-        "com.hcmus.mela.streak.repository"
+        "com.hcmus.mela.streak.repository",
+        "com.hcmus.mela.review.repository"
 })
 @RequiredArgsConstructor
 public class DatabaseConfiguration {

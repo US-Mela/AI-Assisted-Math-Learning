@@ -1,0 +1,26 @@
+name: Update Version in Gist
+
+on:
+  workflow_dispatch: {} #manually run
+
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Parse version data from pubspec.yaml
+        id: parse
+        run: |
+          VERSION_DATA=$(grep '^version' frontend/mela/pubspec.yaml | cut -d ' ' -f 2)
+          echo "VERSION_NAME=$(echo $VERSION_DATA | cut -d '+' -f 1)" >> $GITHUB_ENV
+          echo "BUILD_NUMBER=$(echo $VERSION_DATA | cut -d '+' -f 2)" >> $GITHUB_ENV
+
+      - name: Update Gist
+        run: |
+         curl -X PATCH "https://api.github.com/gists/${{ secrets.VCS_GIST_ID }}" \
+              -H "Authorization: token ${{ secrets.VCS_GIST_TOKEN}}"\
+              -H "Accept: application/vnd.github.v3+json" \
+              -d '{"files": {"mela.json": {"content": "{\"version\": \"${{ env.VERSION_NAME }}\" , \"count\": \"${{ env.BUILD_NUMBER }}\"}"}}}'

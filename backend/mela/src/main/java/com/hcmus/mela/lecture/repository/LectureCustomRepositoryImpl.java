@@ -3,14 +3,14 @@ package com.hcmus.mela.lecture.repository;
 import com.hcmus.mela.lecture.model.Lecture;
 import com.hcmus.mela.lecture.model.LectureActivity;
 import lombok.RequiredArgsConstructor;
+import org.bson.Document;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -72,6 +72,98 @@ public class LectureCustomRepositoryImpl implements LectureCustomRepository {
                 aggregation,
                 "lecture_histories",
                 LectureActivity.class);
+        return results.getMappedResults();
+    }
+
+    @Override
+    public List<Lecture> findCompleteLecturesWithWrongExercises(UUID userId) {
+        // Match by userId and completed_at ≥ 3 days ago
+        MatchOperation userAndDateMatch = Aggregation.match(
+                new Criteria().andOperator(
+                        Criteria.where("user_id").is(userId),
+                        Criteria.where("completed_at").lte(LocalDateTime.now().minusDays(3))
+                )
+        );
+
+        AggregationOperation lookupExercise = context -> new Document("$lookup",
+                new Document("from", "exercise_histories")
+                        .append("let", new Document("lectureId", "$lecture_id").append("userId", "$user_id"))
+                        .append("pipeline", Arrays.asList(
+                                new Document("$match",
+                                        new Document("$expr",
+                                                new Document("$and", Arrays.asList(
+                                                        new Document("$eq", Arrays.asList("$lecture_id", "$$lectureId")),
+                                                        new Document("$eq", Arrays.asList("$user_id", "$$userId"))
+                                                ))
+                                        )
+                                )
+                        ))
+                        .append("as", "exerciseResults")
+        );
+
+
+        // Unwind exerciseResults
+        UnwindOperation unwindExercises = Aggregation.unwind("exerciseResults", true);
+
+        ProjectionOperation projectRenameExerciseFields = Aggregation.project()
+                .andInclude("user_id", "lecture_id", "completed_at", "otherRootFieldsIfAny...") // include root fields you need
+                .and("exerciseResults.progress").as("exerciseResults.progress")
+                .and("exerciseResults.score").as("exerciseResults.score")
+                .and("exerciseResults.completed_at").as("exerciseCompletedAt");
+
+        AddFieldsOperation addDefaultScore = Aggregation.addFields()
+                .addFieldWithValue("exerciseScore",
+                        ConditionalOperators.ifNull("exerciseResults.score").then(0))
+                .build();
+
+        MatchOperation resultMatch = Aggregation.match(
+                new Criteria().andOperator(
+                        Criteria.where("progress").is(100),
+                        Criteria.where("exerciseScore").lt(100)
+                )
+        );
+
+
+        // Lookup lectures by lecture_id
+        LookupOperation lookupLecture = LookupOperation.newLookup()
+                .from("lectures")
+                .localField("lecture_id")
+                .foreignField("_id")
+                .as("lecture");
+
+        // Unwind lectures (should be only one)
+        UnwindOperation unwindLecture = Aggregation.unwind("lecture");
+
+        // Replace root with lecture document
+        GroupOperation groupAndGetMaxScore = Aggregation.group("lecture_id")
+                .first("lecture").as("lecture")
+                .first("completed_at").as("completedAt")
+                .max("exerciseResults.score").as("maxScore");
+
+        SortOperation sortOperation = Aggregation.sort(
+                Sort.by(Sort.Order.asc("completedAt"), Sort.Order.asc("maxScore"))
+        );
+
+        ReplaceRootOperation replaceRootFinal = Aggregation.replaceRoot("lecture");
+
+        Aggregation aggregation = Aggregation.newAggregation(
+                userAndDateMatch,
+                lookupExercise,
+                unwindExercises,
+                addDefaultScore,
+                resultMatch,
+                lookupLecture,
+                unwindLecture,
+                groupAndGetMaxScore,
+                sortOperation,
+                replaceRootFinal
+        );
+
+
+        AggregationResults<Lecture> results = mongoTemplate.aggregate(
+                aggregation, "lecture_histories", Lecture.class
+        );
+
         return results.getMappedResults();
     }
 
