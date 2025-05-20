@@ -22,12 +22,17 @@ import com.hcmus.mela.review.dto.response.UpdateReviewResponse;
 import com.hcmus.mela.review.mapper.ReviewMapper;
 import com.hcmus.mela.review.model.ExerciseReference;
 import com.hcmus.mela.review.model.Review;
+import com.hcmus.mela.review.model.ReviewType;
 import com.hcmus.mela.review.model.SectionReference;
 import com.hcmus.mela.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 @Service
@@ -71,12 +76,15 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public GetReviewsResponse getReviews(UUID userId) {
-        Date startOfDay = truncateTime(new Date());
+        ZonedDateTime utcNow = ZonedDateTime.now(ZoneOffset.UTC);
+        ZonedDateTime startOfDayUtc = utcNow.toLocalDate().atStartOfDay(ZoneOffset.UTC);
 
-        Calendar cal = Calendar.getInstance();
+        Date startOfDay = Date.from(startOfDayUtc.toInstant());
+
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         cal.setTime(startOfDay);
         cal.add(Calendar.DATE, 1);
-        Date endOfDay = truncateTime(cal.getTime());
+        Date endOfDay = cal.getTime();
 
         List<Review> reviews = reviewRepository.findAllByUserIdAndCreatedAtBetween(userId, startOfDay, endOfDay);
 
@@ -122,7 +130,37 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public UpdateReviewResponse updateReview(UUID reviewId, UpdateReviewRequest updateReviewRequest) {
-        return null;
+        Review review = reviewRepository.findByReviewId(reviewId);
+
+        if (review == null) {
+            final String errorMessage = exceptionMessageAccessor.getMessage(null, REVIEW_NOT_FOUND, reviewId);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, errorMessage);
+        }
+
+        if (updateReviewRequest.getType() == ReviewType.EXERCISE) {
+            for (ExerciseReference exerciseReference : review.getExerciseList()) {
+                if (exerciseReference.getExerciseId().equals(updateReviewRequest.getItemId())
+                && exerciseReference.getOrdinalNumber().equals(updateReviewRequest.getOrdinalNumber())) {
+                    exerciseReference.setIsDone(updateReviewRequest.getIsDone());
+                    break;
+                }
+            }
+        }
+        else {
+            for(SectionReference sectionReference : review.getSectionList()) {
+                if(sectionReference.getLectureId().equals(updateReviewRequest.getItemId())
+                && sectionReference.getOrdinalNumber().equals(updateReviewRequest.getOrdinalNumber())) {
+                    sectionReference.setIsDone(updateReviewRequest.getIsDone());
+                    break;
+                }
+            }
+        }
+
+        Review result = reviewRepository.updateReview(review);
+
+        final String updateReviewsSuccessMessage = generalMessageAccessor.getMessage(null, UPDATE_REVIEW_SUCCESS, reviewId);
+
+        return new UpdateReviewResponse(updateReviewsSuccessMessage);
     }
 
     private List<Review> createReview(UUID userId, Date startOfDay, Date endOfDay) {
