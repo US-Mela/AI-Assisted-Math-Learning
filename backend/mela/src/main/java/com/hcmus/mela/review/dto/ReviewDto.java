@@ -1,8 +1,5 @@
 package com.hcmus.mela.review.dto;
 
-import com.hcmus.mela.exercise.dto.dto.ExerciseDto;
-import com.hcmus.mela.lecture.dto.dto.SectionDto;
-import com.hcmus.mela.review.model.ReviewType;
 import lombok.*;
 
 import java.util.Date;
@@ -19,11 +16,9 @@ public class ReviewDto {
 
     private UUID userId;
 
-    private ReviewType reviewType;
-
     private Date createdAt;
 
-    private List<ExerciseDto> exerciseList;
+    private List<ExerciseReferenceDto> exerciseList;
 
-    private List<SectionDto> sectionList;
+    private List<SectionReferenceDto> sectionList;
 }

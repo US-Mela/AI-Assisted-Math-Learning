@@ -1,6 +1,5 @@
 package com.hcmus.mela.review.dto.request;
 
-import com.hcmus.mela.review.model.ReviewType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,9 +12,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateReviewRequest {
-    private ReviewType reviewType;
-
     private UUID itemId;
 
     private Integer ordinalNumber;
+
+    private Boolean isDone;
 }
