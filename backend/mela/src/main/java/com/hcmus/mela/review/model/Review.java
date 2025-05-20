@@ -23,9 +23,6 @@ public class Review {
     @Field(name = "user_id")
     private UUID userId;
 
-    @Field(name = "type")
-    private ReviewType reviewType;
-
     @Field(name = "created_at")
     private Date createdAt;
 
