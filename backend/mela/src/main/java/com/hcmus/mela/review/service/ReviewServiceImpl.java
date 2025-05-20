@@ -19,6 +19,7 @@ import com.hcmus.mela.review.dto.SectionReferenceDto;
 import com.hcmus.mela.review.dto.request.UpdateReviewRequest;
 import com.hcmus.mela.review.dto.response.GetReviewsResponse;
 import com.hcmus.mela.review.dto.response.UpdateReviewResponse;
+import com.hcmus.mela.review.exception.ReviewNotFoundException;
 import com.hcmus.mela.review.mapper.ReviewMapper;
 import com.hcmus.mela.review.model.ExerciseReference;
 import com.hcmus.mela.review.model.Review;
@@ -27,9 +28,7 @@ import com.hcmus.mela.review.model.SectionReference;
 import com.hcmus.mela.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -134,7 +133,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         if (review == null) {
             final String errorMessage = exceptionMessageAccessor.getMessage(null, REVIEW_NOT_FOUND, reviewId);
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, errorMessage);
+            throw new ReviewNotFoundException(errorMessage);
         }
 
         if (updateReviewRequest.getType() == ReviewType.EXERCISE) {
