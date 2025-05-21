@@ -4,6 +4,7 @@ server:
 spring:
   config:
     import:
+      - classpath:configuration/Swagger.properties
       - classpath:configuration/Database.properties
       - classpath:configuration/Security.properties
       - classpath:configuration/Mail.properties
@@ -12,6 +13,7 @@ spring:
       - classpath:configuration/AiClient.properties
       - classpath:prompts/ExerciseHintPrompt.yml
       - classpath:prompts/ChatBotPrompt.yml
+      
 
 logging:
   level:
