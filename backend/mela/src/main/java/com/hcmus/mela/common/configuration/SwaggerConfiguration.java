@@ -77,13 +77,8 @@ public class SwaggerConfiguration {
     }
 
     @Bean
-    GroupedOpenApi managementApi() {
-        return GroupedOpenApi.builder().pathsToMatch("/actuator/**").group("Management Api").build();
-    }
-
-    @Bean
     GroupedOpenApi defaultApi() {
-        return GroupedOpenApi.builder().pathsToExclude("/actuator/**").group("Default Api").build();
+        return GroupedOpenApi.builder().pathsToExclude("/actuator/**").group("Mela-API").build();
     }
 
 }
