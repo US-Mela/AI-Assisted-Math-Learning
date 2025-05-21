@@ -88,7 +88,7 @@ public class ReviewServiceImpl implements ReviewService {
         List<Review> reviews = reviewRepository.findAllByUserIdAndCreatedAtBetween(userId, startOfDay, endOfDay);
 
         if (reviews == null || reviews.isEmpty()) {
-            reviews = createReview(userId, startOfDay, endOfDay);
+            reviews = createReview(userId, startOfDay);
         }
 
         List<ReviewDto> reviewDtos = reviews.stream()
@@ -133,6 +133,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         if (review == null) {
             final String errorMessage = exceptionMessageAccessor.getMessage(null, REVIEW_NOT_FOUND, reviewId);
+            log.error(errorMessage);
             throw new ReviewNotFoundException(errorMessage);
         }
 
@@ -162,7 +163,7 @@ public class ReviewServiceImpl implements ReviewService {
         return new UpdateReviewResponse(updateReviewsSuccessMessage);
     }
 
-    private List<Review> createReview(UUID userId, Date startOfDay, Date endOfDay) {
+    private List<Review> createReview(UUID userId, Date startOfDay) {
         List<LectureDto> lectures = lectureListService.getLecturesNeedToBeReviewed(userId);
 
         int sectionSize = 0;
