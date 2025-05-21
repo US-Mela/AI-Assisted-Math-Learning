@@ -105,4 +105,15 @@ public class LectureHistoryServiceImpl implements LectureHistoryService {
         }
         return lectureHistories.stream().map(LectureHistoryMapper.INSTANCE::converToLectureHistoryDto).toList();
     }
+
+    @Override
+    public List<LectureHistory> getBestProgressHistoriesGroupedByLecture(UUID userId) {
+        List<LectureHistory> lectureHistories = lectureHistoryRepository.findBestProgressHistoriesGroupedByLecture(userId);
+
+        if (lectureHistories == null || lectureHistories.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return lectureHistories;
+    }
 }

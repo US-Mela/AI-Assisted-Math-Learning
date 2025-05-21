@@ -9,5 +9,9 @@ public interface LectureService {
 
     LectureDto getLectureById(UUID lectureId);
 
+    Integer getLectureOrdinalNumber(UUID lectureId);
+
     GetLectureSectionsResponse getLectureSections(UUID lectureId);
+
+    LectureDto getLectureByTopicIdAndLevelIdAndOrdinalNumber(UUID topicId, UUID levelId, Integer ordinalNumber);
 }
