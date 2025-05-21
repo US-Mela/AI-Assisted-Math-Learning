@@ -4,7 +4,6 @@ import com.hcmus.mela.ai.chatbot.model.Message;
 import com.hcmus.mela.ai.client.config.AiFeatureProperties;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Interface for building request bodies for different AI providers.
