@@ -13,4 +13,6 @@ public interface LectureRepository extends MongoRepository<Lecture, UUID>, Lectu
 
     @Query("{ 'lectureId': { '$in': ?0 } }")
     List<Lecture> findAllByLectureIdList(List<UUID> lectureIdList);
+
+    Lecture findByTopicIdAndLevelIdAndOrdinalNumber(UUID topicId, UUID levelId, Integer ordinalNumber);
 }

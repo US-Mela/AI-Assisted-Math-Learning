@@ -17,4 +17,6 @@ public interface LectureListService {
     GetLecturesResponse getLecturesByRecent(UUID userId, Integer size);
 
     List<LectureDto> getLecturesNeedToBeReviewed(UUID userId);
+
+    List<LectureDto> getLecturesNeedToBeSuggested(UUID userId);
 }

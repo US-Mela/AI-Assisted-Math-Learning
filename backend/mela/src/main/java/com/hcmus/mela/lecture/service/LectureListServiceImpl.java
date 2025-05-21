@@ -138,6 +138,11 @@ public class LectureListServiceImpl implements LectureListService {
                 .toList();
     }
 
+    @Override
+    public List<LectureDto> getLecturesNeedToBeSuggested(UUID userId) {
+        return List.of();
+    }
+
     private List<LectureActivity> mergeActivity(List<LectureActivity> first, List<LectureActivity> second) {
         List<LectureActivity> recentLecture = new ArrayList<>();
 
