@@ -1,6 +1,5 @@
 package com.hcmus.mela.streak.service;
 
-import com.hcmus.mela.common.exception.BadRequestException;
 import com.hcmus.mela.common.utils.ExceptionMessageAccessor;
 import com.hcmus.mela.common.utils.GeneralMessageAccessor;
 import com.hcmus.mela.streak.dto.response.GetStreakResponse;

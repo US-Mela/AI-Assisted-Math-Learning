@@ -9,7 +9,6 @@ import com.hcmus.mela.lecture.service.LevelService;
 import com.hcmus.mela.user.dto.UserDto;
 import com.hcmus.mela.user.dto.request.*;
 import com.hcmus.mela.user.dto.response.*;
-import com.hcmus.mela.user.exception.InvalidTokenException;
 import com.hcmus.mela.user.exception.EmptyUpdateDataException;
 import com.hcmus.mela.user.mapper.UserMapper;
 import com.hcmus.mela.user.model.User;
