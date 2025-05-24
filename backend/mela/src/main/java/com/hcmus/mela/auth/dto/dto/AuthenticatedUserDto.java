@@ -16,7 +16,7 @@ public class AuthenticatedUserDto {
 
     private UUID userId;
 
-    private String name;
+    private String fullname;
 
     private String username;
 
@@ -24,4 +24,5 @@ public class AuthenticatedUserDto {
 
     private UserRole userRole;
 
+    private String levelTitle;
 }

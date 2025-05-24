@@ -44,4 +44,9 @@ public class LevelServiceImpl implements LevelService {
     public Level findLevelByLevelId(UUID id) {
         return levelRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public Level findLevelByLevelTitle(String title) {
+        return levelRepository.findByName(title);
+    }
 }

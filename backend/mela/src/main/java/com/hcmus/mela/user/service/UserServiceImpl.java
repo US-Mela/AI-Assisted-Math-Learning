@@ -4,6 +4,9 @@ import com.hcmus.mela.auth.security.jwt.JwtTokenService;
 import com.hcmus.mela.auth.service.OtpService;
 import com.hcmus.mela.common.cache.RedisService;
 import com.hcmus.mela.common.exception.BadRequestException;
+import com.hcmus.mela.lecture.model.Level;
+import com.hcmus.mela.lecture.service.LevelService;
+import com.hcmus.mela.user.dto.UserDto;
 import com.hcmus.mela.user.dto.request.*;
 import com.hcmus.mela.user.dto.response.*;
 import com.hcmus.mela.user.exception.InvalidTokenException;
@@ -37,6 +40,7 @@ public class UserServiceImpl implements UserService {
     private final GeneralMessageAccessor generalMessageAccessor;
 
     private final ExceptionMessageAccessor exceptionMessageAccessor;
+    private final LevelService levelService;
 
     @Override
     public UpdateProfileResponse updateProfile(UpdateProfileRequest updateProfileRequest, String authorizationHeader) {
@@ -52,7 +56,8 @@ public class UserServiceImpl implements UserService {
 
         if (updateProfileRequest.getBirthday() == null &&
                 updateProfileRequest.getFullname() == null &&
-                updateProfileRequest.getImageUrl() == null) {
+                updateProfileRequest.getImageUrl() == null &&
+                updateProfileRequest.getLevelTitle() == null) {
             final String noDataToUpdate = exceptionMessageAccessor.getMessage(null, "no_data_to_update");
             throw new EmptyUpdateDataException(noDataToUpdate);
         }
@@ -67,6 +72,11 @@ public class UserServiceImpl implements UserService {
 
         if (updateProfileRequest.getImageUrl() != null) {
             user.setImageUrl(updateProfileRequest.getImageUrl());
+        }
+
+        if (updateProfileRequest.getLevelTitle() != null) {
+            Level level = levelService.findLevelByLevelTitle(updateProfileRequest.getLevelTitle());
+            user.setLevelId(level.getLevelId());
         }
 
         user.setUpdatedAt(new Date());
@@ -90,7 +100,18 @@ public class UserServiceImpl implements UserService {
             throw new BadRequestException(userNotFound);
         }
 
-        return UserMapper.INSTANCE.convertToGetUserProfileResponse(user);
+        UserDto userDto = UserMapper.INSTANCE.userToUserDto(user);
+
+        if (user.getLevelId() != null) {
+            Level level = levelService.findLevelByLevelId(user.getLevelId());
+
+            userDto.setLevelTitle(level.getName());
+        }
+
+
+        final String getUserSuccessfully = generalMessageAccessor.getMessage(null, "get_user_successful", userId);
+
+        return new GetUserProfileResponse(userDto, getUserSuccessfully);
     }
 
     @Transactional

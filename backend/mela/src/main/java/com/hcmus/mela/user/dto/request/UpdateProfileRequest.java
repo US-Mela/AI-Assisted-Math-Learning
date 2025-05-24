@@ -21,4 +21,6 @@ public class UpdateProfileRequest {
 
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date birthday;
+
+    private String levelTitle;
 }

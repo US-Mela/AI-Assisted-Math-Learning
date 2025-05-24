@@ -10,4 +10,6 @@ public interface LevelService {
     GetLevelsResponse getLevelsResponse();
 
     Level findLevelByLevelId(UUID id);
+
+    Level findLevelByLevelTitle(String title);
 }

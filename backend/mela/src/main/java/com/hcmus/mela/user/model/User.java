@@ -24,8 +24,10 @@ public class User {
     @Field(name = "_id")
     private UUID userId; // Mongo stores _id as a String; you can use UUID.toString()
 
+    @Field("username")
     private String username;
 
+    @Field("password")
     private String password;
 
     @Field("full_name")
@@ -40,7 +42,11 @@ public class User {
     @Field("updated_at")
     private Date updatedAt;
 
+    @Field("birthday")
     private Date birthday;
+
+    @Field("level_id")
+    private UUID levelId;
 
     @Field("user_role")
     @Enumerated(EnumType.STRING)
