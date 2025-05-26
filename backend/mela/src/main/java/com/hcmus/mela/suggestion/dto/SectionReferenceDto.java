@@ -21,4 +21,6 @@ public class SectionReferenceDto {
     private String topicTitle;
 
     private String levelTitle;
+
+    private String sectionUrl;
 }

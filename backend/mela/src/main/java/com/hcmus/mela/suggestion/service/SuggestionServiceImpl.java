@@ -88,6 +88,10 @@ public class SuggestionServiceImpl implements SuggestionService {
                 sectionReferenceDto.setLectureTitle(lectureDto.getName());
                 sectionReferenceDto.setTopicTitle(topicDto.getName());
                 sectionReferenceDto.setLevelTitle(level.getName());
+                sectionReferenceDto.setSectionUrl(lectureDto
+                        .getSections()
+                        .get(sectionReferenceDto.getOrdinalNumber())
+                        .getUrl());
             }
         }
         final String getSuggestionsSuccessMessage = generalMessageAccessor.getMessage(null, SUGGESTIONS_FOUND, userId);
