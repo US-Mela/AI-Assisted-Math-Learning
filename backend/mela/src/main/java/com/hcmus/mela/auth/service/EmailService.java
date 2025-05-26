@@ -1,7 +1,6 @@
 package com.hcmus.mela.auth.service;
 
 import com.hcmus.mela.auth.dto.dto.EmailDetailsDto;
-import jakarta.mail.MessagingException;
 
 public interface EmailService {
 

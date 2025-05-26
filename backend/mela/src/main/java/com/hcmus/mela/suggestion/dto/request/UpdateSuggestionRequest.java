@@ -1,6 +1,5 @@
 package com.hcmus.mela.suggestion.dto.request;
 
-import com.hcmus.mela.review.model.ReviewType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
