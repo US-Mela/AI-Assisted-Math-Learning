@@ -90,7 +90,7 @@ public class SuggestionServiceImpl implements SuggestionService {
                 sectionReferenceDto.setLevelTitle(level.getName());
                 sectionReferenceDto.setSectionUrl(lectureDto
                         .getSections()
-                        .get(sectionReferenceDto.getOrdinalNumber())
+                        .get(sectionReferenceDto.getOrdinalNumber() - 1)
                         .getUrl());
             }
         }

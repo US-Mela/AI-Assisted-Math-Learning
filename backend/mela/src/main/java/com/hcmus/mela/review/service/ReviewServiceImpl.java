@@ -121,7 +121,7 @@ public class ReviewServiceImpl implements ReviewService {
                 sectionReferenceDto.setLevelTitle(level.getName());
                 sectionReferenceDto.setSectionUrl(lectureDto
                         .getSections()
-                        .get(sectionReferenceDto.getOrdinalNumber())
+                        .get(sectionReferenceDto.getOrdinalNumber() - 1)
                         .getUrl());
             }
         }
