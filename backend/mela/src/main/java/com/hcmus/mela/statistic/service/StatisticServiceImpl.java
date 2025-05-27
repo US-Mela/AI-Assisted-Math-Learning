@@ -1,6 +1,6 @@
 package com.hcmus.mela.statistic.service;
 
-import com.hcmus.mela.common.async.AsyncCustomService;
+import com.hcmus.mela.shared.async.AsyncCustomService;
 import com.hcmus.mela.exercise.dto.dto.ExerciseDto;
 import com.hcmus.mela.exercise.service.ExerciseInfoService;
 import com.hcmus.mela.history.dto.dto.ExerciseHistoryDto;

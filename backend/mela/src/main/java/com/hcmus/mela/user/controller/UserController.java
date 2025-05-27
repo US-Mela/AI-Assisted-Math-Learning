@@ -3,7 +3,7 @@ package com.hcmus.mela.user.controller;
 import com.hcmus.mela.auth.security.jwt.JwtTokenService;
 import com.hcmus.mela.user.dto.request.*;
 import com.hcmus.mela.user.dto.response.*;
-import com.hcmus.mela.common.storage.StorageService;
+import com.hcmus.mela.shared.storage.StorageService;
 import com.hcmus.mela.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;

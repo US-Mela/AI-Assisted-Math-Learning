@@ -1,7 +1,7 @@
 package com.hcmus.mela.exercise.exception;
 
-import com.hcmus.mela.common.configuration.RequestIdFilter;
-import com.hcmus.mela.common.exception.ApiErrorResponse;
+import com.hcmus.mela.shared.configuration.RequestIdFilter;
+import com.hcmus.mela.shared.exception.ApiErrorResponse;
 import com.hcmus.mela.exercise.controller.ExerciseController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;

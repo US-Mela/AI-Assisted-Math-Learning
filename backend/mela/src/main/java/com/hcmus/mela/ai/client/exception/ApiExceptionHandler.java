@@ -1,7 +1,7 @@
 package com.hcmus.mela.ai.client.exception;
 
-import com.hcmus.mela.common.configuration.RequestIdFilter;
-import com.hcmus.mela.common.exception.ApiErrorResponse;
+import com.hcmus.mela.shared.configuration.RequestIdFilter;
+import com.hcmus.mela.shared.exception.ApiErrorResponse;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;

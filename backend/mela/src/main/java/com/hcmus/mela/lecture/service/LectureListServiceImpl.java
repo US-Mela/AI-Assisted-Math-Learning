@@ -1,7 +1,7 @@
 package com.hcmus.mela.lecture.service;
 
-import com.hcmus.mela.common.async.AsyncCustomService;
-import com.hcmus.mela.common.utils.GeneralMessageAccessor;
+import com.hcmus.mela.shared.async.AsyncCustomService;
+import com.hcmus.mela.shared.utils.GeneralMessageAccessor;
 import com.hcmus.mela.history.service.ExerciseHistoryService;
 import com.hcmus.mela.lecture.dto.dto.LectureDto;
 import com.hcmus.mela.lecture.dto.dto.LectureStatDetailDto;

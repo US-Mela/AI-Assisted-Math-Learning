@@ -11,7 +11,7 @@ import com.hcmus.mela.ai.chatbot.dto.response.GetListMessagesResponseDto;
 import com.hcmus.mela.ai.chatbot.service.ConversationHistoryService;
 import com.hcmus.mela.ai.chatbot.service.ConversationService;
 import com.hcmus.mela.auth.security.jwt.JwtTokenService;
-import com.hcmus.mela.common.storage.StorageService;
+import com.hcmus.mela.shared.storage.StorageService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/chatbot/conversations")
+@RequestMapping("/api/chatbot")
 @RequiredArgsConstructor
 public class ChatBotController {
     private final ConversationService conversationService;
@@ -29,7 +29,7 @@ public class ChatBotController {
     private final StorageService storageService;
     private final ConversationHistoryService conversationHistoryService;
 
-    @PostMapping()
+    @PostMapping("/conversations")
     public ResponseEntity<ChatResponseDto> createConversation(
             @Valid @RequestBody CreateConversationRequestDto createConversationRequestDto,
             @RequestHeader(value = "Authorization") String authorizationHeader) {
@@ -40,7 +40,7 @@ public class ChatBotController {
         return ResponseEntity.ok(chatResponseDto);
     }
 
-    @PostMapping("{conversationId}/messages")
+    @PostMapping("/conversations/{conversationId}/messages")
     public ResponseEntity<ChatResponseDto> sendMessage(
             @Valid @RequestBody MessageRequestDto messageRequestDto,
             @PathVariable String conversationId,
@@ -54,7 +54,7 @@ public class ChatBotController {
         return ResponseEntity.ok(chatResponseDto);
     }
 
-    @PostMapping("{conversationId}/messages/review-submission")
+    @PostMapping("/conversations/{conversationId}/messages/review-submission")
     public ResponseEntity<ChatResponseDto> reviewSubmission(
             @Valid @RequestBody MessageRequestDto messageRequestDto,
             @PathVariable String conversationId,
@@ -68,7 +68,7 @@ public class ChatBotController {
         return ResponseEntity.ok(chatResponseDto);
     }
 
-    @PostMapping("{conversationId}/messages/solution")
+    @PostMapping("/conversations/{conversationId}/messages/solution")
     public ResponseEntity<ChatResponseDto> getSolution(
             @Valid @RequestBody MessageRequestDto messageRequestDto,
             @PathVariable String conversationId,
@@ -82,7 +82,7 @@ public class ChatBotController {
         return ResponseEntity.ok(chatResponseDto);
     }
 
-    @GetMapping("/files/upload-url")
+    @GetMapping("/conversations/files/upload-url")
     public ResponseEntity<Map<String, String>> getUploadUrl() {
         Map<String, String> urls = storageService.getUploadConversationFilePreSignedUrl(UUID.randomUUID().toString());
 
@@ -91,7 +91,7 @@ public class ChatBotController {
         );
     }
 
-    @GetMapping("")
+    @GetMapping("/conversations")
     public ResponseEntity<GetConversationHistoryResponseDto> getConversationHistory(
             @Valid @RequestBody GetConversationHistoryRequestDto request,
             @RequestHeader(value = "Authorization") String authorizationHeader) {
@@ -101,20 +101,20 @@ public class ChatBotController {
         return ResponseEntity.ok(conversationHistoryService.getConversationHistory(request, userId));
     }
 
-    @GetMapping("{conversationId}")
+    @GetMapping("/conversations/{conversationId}")
     public ResponseEntity<ConversationInfoDto> getConversation(@PathVariable String conversationId) {
         ConversationInfoDto conversationInfoDto = conversationHistoryService.getConversation(UUID.fromString(conversationId));
         return ResponseEntity.ok(conversationInfoDto);
     }
 
-    @GetMapping("{conversationId}/messages")
+    @GetMapping("/conversations/{conversationId}/messages")
     public ResponseEntity<GetListMessagesResponseDto> getListMessages(
             @Valid @RequestBody GetListMessagesRequestDto request,
             @PathVariable String conversationId) {
         return ResponseEntity.ok(conversationHistoryService.getListMessages(request, UUID.fromString(conversationId)));
     }
 
-    @DeleteMapping("{conversationId}")
+    @DeleteMapping("/conversations/{conversationId}")
     public ResponseEntity<Void> deleteConversation(@PathVariable String conversationId) {
         conversationHistoryService.deleteConversation(UUID.fromString(conversationId));
         return ResponseEntity.noContent().build();

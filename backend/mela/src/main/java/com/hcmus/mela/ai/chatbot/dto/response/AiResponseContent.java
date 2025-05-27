@@ -3,7 +3,7 @@ package com.hcmus.mela.ai.chatbot.dto.response;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.hcmus.mela.common.utils.LaTeXUtils;
+import com.hcmus.mela.shared.utils.LaTeXUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

@@ -2,8 +2,8 @@ package com.hcmus.mela.auth.exception;
 
 import com.hcmus.mela.auth.controller.AuthController;
 import com.hcmus.mela.auth.controller.ForgotPasswordController;
-import com.hcmus.mela.common.configuration.RequestIdFilter;
-import com.hcmus.mela.common.exception.ApiErrorResponse;
+import com.hcmus.mela.shared.configuration.RequestIdFilter;
+import com.hcmus.mela.shared.exception.ApiErrorResponse;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;

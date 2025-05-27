@@ -1,6 +1,6 @@
 package com.hcmus.mela.history.service;
 
-import com.hcmus.mela.common.utils.ProjectConstants;
+import com.hcmus.mela.shared.utils.ProjectConstants;
 import com.hcmus.mela.exercise.dto.dto.ExerciseDto;
 import com.hcmus.mela.exercise.service.ExerciseInfoService;
 import com.hcmus.mela.history.dto.dto.ExerciseHistoryDto;

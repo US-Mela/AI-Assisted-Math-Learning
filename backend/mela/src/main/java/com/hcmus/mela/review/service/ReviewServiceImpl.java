@@ -1,7 +1,7 @@
 package com.hcmus.mela.review.service;
 
-import com.hcmus.mela.common.utils.ExceptionMessageAccessor;
-import com.hcmus.mela.common.utils.GeneralMessageAccessor;
+import com.hcmus.mela.shared.utils.ExceptionMessageAccessor;
+import com.hcmus.mela.shared.utils.GeneralMessageAccessor;
 import com.hcmus.mela.exercise.dto.dto.ExerciseDto;
 import com.hcmus.mela.exercise.service.ExerciseInfoService;
 import com.hcmus.mela.exercise.service.ExerciseService;

@@ -1,7 +1,7 @@
 package com.hcmus.mela.streak.service;
 
-import com.hcmus.mela.common.utils.ExceptionMessageAccessor;
-import com.hcmus.mela.common.utils.GeneralMessageAccessor;
+import com.hcmus.mela.shared.utils.ExceptionMessageAccessor;
+import com.hcmus.mela.shared.utils.GeneralMessageAccessor;
 import com.hcmus.mela.streak.dto.response.GetStreakResponse;
 import com.hcmus.mela.streak.dto.response.UpdateStreakResponse;
 import com.hcmus.mela.streak.model.Streak;

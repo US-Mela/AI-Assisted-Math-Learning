@@ -1,7 +1,7 @@
 package com.hcmus.mela.suggestion.service;
 
-import com.hcmus.mela.common.utils.ExceptionMessageAccessor;
-import com.hcmus.mela.common.utils.GeneralMessageAccessor;
+import com.hcmus.mela.shared.utils.ExceptionMessageAccessor;
+import com.hcmus.mela.shared.utils.GeneralMessageAccessor;
 import com.hcmus.mela.history.model.LectureCompletedSection;
 import com.hcmus.mela.history.model.LectureHistory;
 import com.hcmus.mela.history.service.LectureHistoryService;

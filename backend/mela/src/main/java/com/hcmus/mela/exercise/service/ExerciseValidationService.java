@@ -1,6 +1,6 @@
 package com.hcmus.mela.exercise.service;
 
-import com.hcmus.mela.common.utils.ExceptionMessageAccessor;
+import com.hcmus.mela.shared.utils.ExceptionMessageAccessor;
 import com.hcmus.mela.exercise.dto.request.ExerciseRequest;
 import com.hcmus.mela.exercise.exception.ExerciseException;
 import com.hcmus.mela.exercise.repository.ExerciseRepository;

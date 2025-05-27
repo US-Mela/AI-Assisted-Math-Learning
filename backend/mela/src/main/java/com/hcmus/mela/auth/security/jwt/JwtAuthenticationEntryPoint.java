@@ -1,6 +1,6 @@
 package com.hcmus.mela.auth.security.jwt;
 
-import com.hcmus.mela.common.exception.ApiErrorResponse;
+import com.hcmus.mela.shared.exception.ApiErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.MDC;

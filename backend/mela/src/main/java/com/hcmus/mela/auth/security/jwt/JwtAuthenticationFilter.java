@@ -1,9 +1,9 @@
 package com.hcmus.mela.auth.security.jwt;
 
-import com.hcmus.mela.common.cache.RedisService;
+import com.hcmus.mela.shared.cache.RedisService;
 import com.hcmus.mela.auth.service.UserDetailsServiceImpl;
 import com.hcmus.mela.auth.security.utils.SecurityConstants;
-import com.hcmus.mela.common.exception.ApiErrorResponse;
+import com.hcmus.mela.shared.exception.ApiErrorResponse;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

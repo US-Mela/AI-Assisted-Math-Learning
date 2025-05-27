@@ -1,8 +1,8 @@
 package com.hcmus.mela.exercise.service;
 
-import com.hcmus.mela.common.async.AsyncCustomService;
-import com.hcmus.mela.common.utils.GeneralMessageAccessor;
-import com.hcmus.mela.common.utils.ProjectConstants;
+import com.hcmus.mela.shared.async.AsyncCustomService;
+import com.hcmus.mela.shared.utils.GeneralMessageAccessor;
+import com.hcmus.mela.shared.utils.ProjectConstants;
 import com.hcmus.mela.exercise.dto.dto.ExerciseDto;
 import com.hcmus.mela.exercise.dto.dto.ExerciseResultDto;
 import com.hcmus.mela.exercise.dto.dto.ExerciseStatDetailDto;

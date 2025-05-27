@@ -1,7 +1,7 @@
 package com.hcmus.mela.history.exception;
 
-import com.hcmus.mela.common.configuration.RequestIdFilter;
-import com.hcmus.mela.common.exception.ApiErrorResponse;
+import com.hcmus.mela.shared.configuration.RequestIdFilter;
+import com.hcmus.mela.shared.exception.ApiErrorResponse;
 import com.hcmus.mela.statistic.controller.StatisticController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

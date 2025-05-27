@@ -12,7 +12,7 @@ import com.hcmus.mela.ai.client.config.AiClientProperties;
 import com.hcmus.mela.ai.client.web.AiWebClient;
 import com.hcmus.mela.ai.client.builder.AiRequestBodyFactory;
 import com.hcmus.mela.ai.client.filter.AiResponseFilter;
-import com.hcmus.mela.common.exception.BadRequestException;
+import com.hcmus.mela.shared.exception.BadRequestException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;

@@ -1,6 +1,6 @@
 package com.hcmus.mela.lecture.service;
 
-import com.hcmus.mela.common.utils.GeneralMessageAccessor;
+import com.hcmus.mela.shared.utils.GeneralMessageAccessor;
 import com.hcmus.mela.lecture.dto.dto.LectureDto;
 import com.hcmus.mela.lecture.dto.dto.LectureOfSectionDto;
 import com.hcmus.mela.lecture.dto.dto.SectionDto;

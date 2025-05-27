@@ -1,7 +1,7 @@
 package com.hcmus.mela.lecture.exception;
 
-import com.hcmus.mela.common.configuration.RequestIdFilter;
-import com.hcmus.mela.common.exception.ApiErrorResponse;
+import com.hcmus.mela.shared.configuration.RequestIdFilter;
+import com.hcmus.mela.shared.exception.ApiErrorResponse;
 import com.hcmus.mela.lecture.controller.LectureController;
 import com.hcmus.mela.lecture.controller.LevelController;
 import com.hcmus.mela.lecture.controller.TopicController;

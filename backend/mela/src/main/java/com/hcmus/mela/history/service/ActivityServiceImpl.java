@@ -1,6 +1,6 @@
 package com.hcmus.mela.history.service;
 
-import com.hcmus.mela.common.async.AsyncCustomService;
+import com.hcmus.mela.shared.async.AsyncCustomService;
 import com.hcmus.mela.history.dto.dto.RecentActivityDto;
 import com.hcmus.mela.history.model.LectureByTime;
 import com.hcmus.mela.history.repository.ExerciseHistoryRepository;
