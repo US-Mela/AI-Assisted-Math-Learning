@@ -2,6 +2,7 @@ package com.hcmus.mela.token.service;
 
 import com.hcmus.mela.shared.utils.GeneralMessageAccessor;
 import com.hcmus.mela.token.dto.response.GetUserTokenResponse;
+import com.hcmus.mela.token.dto.response.IncreaseUserTokenResponse;
 import com.hcmus.mela.token.model.Token;
 import com.hcmus.mela.token.repository.TokenRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class TokenServiceImpl implements TokenService {
 
     private final String TOKEN_FOUND = "token_found_successful";
 
-    private final String REDUCE_TOKEN_SUCCESS = "reduce_token_successful";
+    private final String INCREASE_TOKEN_SUCCESS = "increase_token_successful";
 
     @Override
     public GetUserTokenResponse getUserToken(UUID userId) {
@@ -47,8 +48,6 @@ public class TokenServiceImpl implements TokenService {
 
         if (token == null) {
             token = new Token(userId, 5);
-
-            tokenRepository.save(token);
         }
 
         token.setToken(token.getToken() - 1);
@@ -72,5 +71,22 @@ public class TokenServiceImpl implements TokenService {
         }
 
         return true;
+    }
+
+    @Override
+    public IncreaseUserTokenResponse increaseUserToken(UUID userId) {
+        Token token = tokenRepository.findByUserId(userId);
+
+        if (token == null) {
+            token = new Token(userId, 5);
+        }
+
+        token.setToken(token.getToken() + 1);
+
+        tokenRepository.save(token);
+
+        String increaseTokenMessage = generalMessageAccessor.getMessage(null, INCREASE_TOKEN_SUCCESS, userId);
+
+        return new IncreaseUserTokenResponse(increaseTokenMessage, token.getToken());
     }
 }
